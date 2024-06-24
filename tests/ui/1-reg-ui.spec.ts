@@ -1,5 +1,4 @@
 import { test, expect } from '../../common/test';
-
 require('dotenv').config();
 
 const email = process.env.EMAIL as string
@@ -39,8 +38,9 @@ test.describe('Negative scenarios',async()=>{
     await regPage.signUp.click()
     const response = await page.waitForResponse('**/users')
     expect (response.status()).toEqual(422)
-    await expect(page.locator('[class="error-messages"]')).toBeVisible()
-    await expect(page.locator('[class="error-messages"]')).toHaveText('email has already been taken')
+    await expect(regPage.regErrorMessage).toBeVisible()
+    await expect(regPage.regErrorMessage).toHaveText('email has already been taken')
+    await expect (regPage.regErrorMessage).toHaveScreenshot({ maxDiffPixels: 100 })
   });
 
   test('Create user with existing username', async ({ regPage,page }) => {
@@ -51,8 +51,22 @@ test.describe('Negative scenarios',async()=>{
     await regPage.signUp.click()
     const response = await page.waitForResponse('**/users')
     expect (response.status()).toEqual(422)
-    await expect(page.locator('[class="error-messages"]')).toBeVisible()
-    await expect(page.locator('[class="error-messages"]')).toHaveText('username has already been taken')
+    await expect(regPage.regErrorMessage).toBeVisible()
+    await expect(regPage.regErrorMessage).toHaveText('username has already been taken')
+    await expect (regPage.regErrorMessage).toHaveScreenshot({ maxDiffPixels: 100 })
+  });
+
+  test('Create user with existing username and email', async ({ regPage,page }) => {
+    await regPage.userNameInput.fill(userName)
+    await regPage.userEmail.fill(email)
+    await regPage.userPassword.fill('pass')
+    await regPage.signUp.click()
+    const response = await page.waitForResponse('**/users')
+    expect (response.status()).toEqual(422)
+    await expect(regPage.regErrorMessage).toBeVisible()
+    await expect(page.getByText('username has already been taken')).toBeVisible()
+    await expect(page.getByText('email has already been taken')).toBeVisible()
+    await expect (regPage.regErrorMessage).toHaveScreenshot({ maxDiffPixels: 100 })
   });
 
 })

@@ -7,6 +7,7 @@ export class Reg {
     readonly userEmail : Locator
     readonly userPassword : Locator
     readonly signUp : Locator
+    readonly regErrorMessage : Locator
 
     constructor(page: Page){
         this.page = page
@@ -14,6 +15,7 @@ export class Reg {
         this.userEmail = this.page.locator('input[placeholder="Email"]')
         this.userPassword = this.page.locator('input[placeholder="Password"]')
         this.signUp = this.page.locator('button[type="submit"]')
+        this.regErrorMessage = this.page.locator('[class="error-messages"]')
     }
 
     async openRegPage(){
