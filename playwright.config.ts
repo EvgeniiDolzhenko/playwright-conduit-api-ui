@@ -9,17 +9,8 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
 
-  // outputDir: '.test/spec/output',
-  // snapshotPathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
-  // testMatch: '*.spec.{ts,tsx}',
 
-  reporter: [
-    ['html', {
-      outputFolder: '.test/spec/results', 
-      open: 'never',
-    }],
-    process.env.CI ? ['github'] : ['line'],
-  ],
+  reporter: 'html',
 
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
