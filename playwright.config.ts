@@ -1,6 +1,6 @@
-import { defineConfig, devices } from '@playwright/test';
+import {defineConfig, devices} from '@playwright/test'
 
-require('dotenv').config();
+require('dotenv').config()
 
 export default defineConfig({
   testDir: './tests',
@@ -8,10 +8,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-
-
   reporter: 'html',
-
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.URL,
@@ -24,10 +21,9 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {...devices['Desktop Chrome']},
     },
-
   ],
 
-
-});
+  globalSetup: require.resolve('./global-setup'),
+})
