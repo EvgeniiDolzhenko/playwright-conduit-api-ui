@@ -1,7 +1,6 @@
 import {test, expect} from '../../common/test'
-
-require('dotenv').config()
 import {faker} from '@faker-js/faker'
+require('dotenv').config()
 
 const email = process.env.EMAIL as string
 const userName = process.env.USER as string

@@ -30,6 +30,24 @@ export class Article {
     return response
   }
 
+  async getAllArticles(url : string, permission : string){
+    const apiContext = await request.newContext()
+    if (permission === 'loggedIn') {
+      const response = await apiContext.get(`${url}/articles?limit=10&offset=0`, {
+        failOnStatusCode: false,
+        headers: {
+          Authorization: 'Token ' + process.env.API_TOKEN,
+        },
+      })
+      return response
+    } else {
+      const response = await apiContext.get(`${url}/articles?limit=10&offset=0`, {
+        failOnStatusCode: false,
+      })
+      return response
+    }
+  }
+
   async getArticleByTitle(title: string, permission: string) {
     const apiContext = await request.newContext()
     if (permission === 'loggedIn') {
@@ -47,4 +65,16 @@ export class Article {
       return response
     }
   }
+
+  async deleteArticle(title : string){
+    const apiContext = await request.newContext()
+    const response = await apiContext.delete(`${url}/articles/${title}-5549`, {
+      failOnStatusCode: false,
+      headers: {
+        Authorization: 'Token ' + process.env.API_TOKEN,
+      },
+    })
+    return response
+  }
+
 }
