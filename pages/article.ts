@@ -30,7 +30,7 @@ export class Article {
     return response
   }
 
-  async getAllArticles(url : string, permission : string){
+  async getAllArticles(url: string, permission: string) {
     const apiContext = await request.newContext()
     if (permission === 'loggedIn') {
       const response = await apiContext.get(`${url}/articles?limit=10&offset=0`, {
@@ -49,20 +49,20 @@ export class Article {
   }
 
   async getArticleByTitle(title: string, permission: string) {
-    const apiContext = await request.newContext();
+    const apiContext = await request.newContext()
     const options: any = {
       failOnStatusCode: false,
-    };
+    }
     if (permission === 'loggedIn') {
       options.headers = {
         Authorization: 'Token ' + process.env.API_TOKEN,
-      };
+      }
     }
-    const response = await apiContext.get(`${url}/articles/${title}-5549`, options);
-    return response;
+    const response = await apiContext.get(`${url}/articles/${title}-5549`, options)
+    return response
   }
 
-  async deleteArticle(title : string){
+  async deleteArticle(title: string) {
     const apiContext = await request.newContext()
     const response = await apiContext.delete(`${url}/articles/${title}-5549`, {
       failOnStatusCode: false,
@@ -72,5 +72,4 @@ export class Article {
     })
     return response
   }
-
 }
