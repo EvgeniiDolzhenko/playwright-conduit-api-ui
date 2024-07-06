@@ -54,16 +54,16 @@ test.describe('Register new client negative', async () => {
   })
 
   test('Register client with existiing username', async ({loginPage, regPage}) => {
-    const response = await loginPage.login(api_server,email,password)
-    expect (response.status()).toEqual(200)
+    const response = await loginPage.login(api_server, email, password)
+    expect(response.status()).toEqual(200)
     const responseBody = await response.json()
     const username = await responseBody.user.username
-        const data = {
+    const data = {
       email: randomEmail,
       password: '123',
       username: username,
     }
-    const regNewClient = await regPage.regNeqClientApi(api_server,data)
+    const regNewClient = await regPage.regNeqClientApi(api_server, data)
     expect(regNewClient.status()).toEqual(422)
     const regNewClientBody = await regNewClient.json()
     expect(regNewClientBody.errors.username).toEqual(['has already been taken'])
