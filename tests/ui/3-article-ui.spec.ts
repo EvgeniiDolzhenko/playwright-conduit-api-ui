@@ -7,7 +7,7 @@ test.describe('Create new article, verify aritcle , delete article UI', async ()
   let articleName: string
   let newArticle: any
   let createdArticle: any
-  test.beforeAll('create article', async ({page, articlePage}) => {
+  test.beforeAll('create article', async ({articlePage}) => {
     newArticle = await articlePage.createNewArticleApi(title, description, articleInfo, tags)
     const data = await newArticle.json()
     articleName = await data.article.slug
