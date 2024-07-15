@@ -38,14 +38,12 @@ test.describe('Create new article, verify aritcle , delete article UI', async ()
 })
 
 test.describe('Mocking article and verify UI for different favoritesCount values', () => {
-  const testValues = [9999, 10000, 0, 1]
+ const testValues = [9999, 10000,10001, 999, 1000, 1001]
   testValues.forEach(value => {
     test(`Verify UI with favoritesCount = ${value}`, async ({navbar, page}) => {
       const articles = generateFavorites(value)
       await page.route(`${api_server}/articles?limit=10&offset=0`, async route => {
         await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
           body: JSON.stringify(articles),
         })
       })

@@ -2,6 +2,7 @@ import {Locator, Page, request} from '@playwright/test'
 require('dotenv').config()
 import {expect} from '../common/test'
 const url = process.env.API_URL as string
+const api_server = process.env.API_URL as string
 
 export class Article {
   readonly page: Page

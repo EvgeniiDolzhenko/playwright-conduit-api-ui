@@ -11,7 +11,6 @@ export class Navbar {
     await this.page.evaluate(token => {
       localStorage.setItem('jwtToken', token)
     }, token)
-    await this.page.reload()
     await this.page.waitForResponse('**/tags')
   }
 }
