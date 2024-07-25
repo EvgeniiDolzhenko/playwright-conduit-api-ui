@@ -40,7 +40,7 @@ test.describe('Create new article, verify aritcle , delete article UI', async ()
 test.describe('Mocking article and verify UI for different favoritesCount values', () => {
   const testValues = [9999, 10000, 10001, 999, 1000, 1001]
   testValues.forEach(value => {
-    test(`Verify UI with favoritesCount = ${value}`, async ({navbar, page}) => {
+    test(`Verify UI with favoritesCount = ${value}`, async ({navbar, page, articlePage}) => {
       const articles = generateFavorites(value)
       await page.route(`${api_server}/articles?limit=10&offset=0`, async route => {
         await route.fulfill({
@@ -48,8 +48,8 @@ test.describe('Mocking article and verify UI for different favoritesCount values
         })
       })
       await navbar.openBasePage(token)
-      await expect(page.locator('.preview-link')).toHaveCount(1)
-      await expect(page.locator('.preview-link h1')).toHaveText('MOCK ARTICLE')
+      await expect(articlePage.articleLink).toHaveCount(1)
+      await expect(articlePage.articleLink.locator('h1')).toHaveText('MOCK ARTICLE')
       await expect(page.locator('[class="btn btn-sm btn-outline-primary"]')).toHaveText(
         ` ${value} `
       )
@@ -79,16 +79,15 @@ test.describe('Verify new article with tag / Search by tag', () => {
     await expect(page.locator('h1')).toContainText(articleName.split('-')[0])
   })
 
-  test('Verify article with tags and delete article', async ({navbar, page, articlePage}) => {
+  test('Verify article with tags, get article by tag and delete article', async ({navbar, page, articlePage}) => {
     await navbar.openBasePage(token)
     await createdArticle.click()
-    await page.pause()
-    await expect(page.locator('[class="tag-default tag-pill tag-outline"]')).toBeVisible()
-    await expect(page.locator('[class="tag-default tag-pill tag-outline"]')).toHaveText(tag)
+    await expect(articlePage.tagInsideArticle).toBeVisible()
+    await expect(articlePage.tagInsideArticle).toHaveText(tag)
     const slug = articleName.split('-')[0]
     const response = await articlePage.deleteArticle(slug)
     expect(response.status()).toEqual(204)
-    await page.locator('.navbar-brand').click()
+    await navbar.navbarHome.click()
     await expect(createdArticle).not.toBeVisible()
     const tagList = await page.locator('.sidebar', {hasText: 'Popular Tags'}).locator('a').count()
     const randomTag = Math.floor(Math.random() * tagList)
@@ -101,3 +100,5 @@ test.describe('Verify new article with tag / Search by tag', () => {
     await expect(page.locator('[class="feed-toggle"] [class="nav-link active"]')).toHaveText(input)
   })
 })
+
+

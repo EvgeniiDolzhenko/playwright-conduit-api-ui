@@ -7,12 +7,16 @@ const api_server = process.env.API_URL as string
 export class Article {
   readonly page: Page
   readonly deleteArticleButton: Locator
+  readonly tagInsideArticle : Locator
+  readonly articleLink : Locator
 
   constructor(page: Page) {
     this.page = page
     this.deleteArticleButton = page.locator(
       '[class="article-actions"] [class="btn btn-sm btn-outline-danger"]'
     )
+    this.tagInsideArticle = page.locator('[class="tag-default tag-pill tag-outline"]')
+    this.articleLink = page.locator('.preview-link')
   }
 
   async createNewArticleApi(title: string, description: string, articleInfo: string, tags: any) {
