@@ -38,7 +38,7 @@ test.describe('Create new article, verify aritcle , delete article UI', async ()
 })
 
 test.describe('Mocking article and verify UI for different favoritesCount values', () => {
- const testValues = [9999, 10000,10001, 999, 1000, 1001]
+  const testValues = [9999, 10000, 10001, 999, 1000, 1001]
   testValues.forEach(value => {
     test(`Verify UI with favoritesCount = ${value}`, async ({navbar, page}) => {
       const articles = generateFavorites(value)
@@ -60,11 +60,11 @@ test.describe('Mocking article and verify UI for different favoritesCount values
   })
 })
 
-test.describe('Verify new article with tag / Search by tag',()=>{
+test.describe('Verify new article with tag / Search by tag', () => {
   let articleName: string
   let newArticle: any
   let createdArticle: any
-  
+
   test.beforeEach('Create new article', async ({page, articlePage, navbar}) => {
     newArticle = await articlePage.createNewArticleApi(title, description, articleInfo, tag)
     const data = await newArticle.json()
@@ -79,7 +79,7 @@ test.describe('Verify new article with tag / Search by tag',()=>{
     await expect(page.locator('h1')).toContainText(articleName.split('-')[0])
   })
 
-  test('Verify article with tags and delete article',async({navbar, page, articlePage})=>{
+  test('Verify article with tags and delete article', async ({navbar, page, articlePage}) => {
     await navbar.openBasePage(token)
     await createdArticle.click()
     await page.pause()
@@ -90,10 +90,13 @@ test.describe('Verify new article with tag / Search by tag',()=>{
     expect(response.status()).toEqual(204)
     await page.locator('.navbar-brand').click()
     await expect(createdArticle).not.toBeVisible()
-    const tagList = await page.locator('.sidebar',{hasText: 'Popular Tags'}).locator('a').count()
+    const tagList = await page.locator('.sidebar', {hasText: 'Popular Tags'}).locator('a').count()
     const randomTag = Math.floor(Math.random() * tagList)
-    const searchTag = page.locator('.sidebar',{hasText: 'Popular Tags'}).locator('a').nth(randomTag)
-    const input : any = await searchTag.textContent()
+    const searchTag = page
+      .locator('.sidebar', {hasText: 'Popular Tags'})
+      .locator('a')
+      .nth(randomTag)
+    const input: any = await searchTag.textContent()
     await searchTag.click()
     await expect(page.locator('[class="feed-toggle"] [class="nav-link active"]')).toHaveText(input)
   })
