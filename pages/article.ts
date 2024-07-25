@@ -9,6 +9,8 @@ export class Article {
   readonly deleteArticleButton: Locator
   readonly tagInsideArticle : Locator
   readonly articleLink : Locator
+  readonly globalFeedButton : Locator
+  readonly likeButton : Locator
 
   constructor(page: Page) {
     this.page = page
@@ -17,6 +19,8 @@ export class Article {
     )
     this.tagInsideArticle = page.locator('[class="tag-default tag-pill tag-outline"]')
     this.articleLink = page.locator('.preview-link')
+    this.globalFeedButton = page.locator('.feed-toggle [class="nav-link active"]')
+    this.likeButton = page.locator('[class="btn btn-sm btn-outline-primary"]')
   }
 
   async createNewArticleApi(title: string, description: string, articleInfo: string, tags: any) {
