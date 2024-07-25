@@ -3,7 +3,7 @@ import {generateFavorites} from '../../common/mockData'
 require('dotenv').config()
 const token = process.env.API_TOKEN as string
 const api_server = process.env.API_URL as string
-import {tags, title, description, articleInfo} from '../../common/helper'
+import {tags, title, description, articleInfo, tag} from '../../common/helper'
 
 test.describe('Create new article, verify aritcle , delete article UI', async () => {
   let articleName: string
@@ -57,5 +57,44 @@ test.describe('Mocking article and verify UI for different favoritesCount values
         maxDiffPixels: 100,
       })
     })
+  })
+})
+
+test.describe('Verify new article with tag / Search by tag',()=>{
+  let articleName: string
+  let newArticle: any
+  let createdArticle: any
+  
+  test.beforeEach('Create new article', async ({page, articlePage, navbar}) => {
+    newArticle = await articlePage.createNewArticleApi(title, description, articleInfo, tag)
+    const data = await newArticle.json()
+    articleName = await data.article.slug
+    expect(newArticle.status()).toEqual(201)
+    await navbar.openBasePage(token)
+    createdArticle = page.locator(`a[href="/article/${articleName}"]`)
+    await expect(createdArticle).toBeVisible()
+    await page.locator(`a[href="/article/${articleName}"]`).click()
+    await page.waitForResponse('**/articles?**')
+    expect(page.url()).toContain(articleName)
+    await expect(page.locator('h1')).toContainText(articleName.split('-')[0])
+  })
+
+  test('Verify article with tags and delete article',async({navbar, page, articlePage})=>{
+    await navbar.openBasePage(token)
+    await createdArticle.click()
+    await page.pause()
+    await expect(page.locator('[class="tag-default tag-pill tag-outline"]')).toBeVisible()
+    await expect(page.locator('[class="tag-default tag-pill tag-outline"]')).toHaveText(tag)
+    const slug = articleName.split('-')[0]
+    const response = await articlePage.deleteArticle(slug)
+    expect(response.status()).toEqual(204)
+    await page.locator('.navbar-brand').click()
+    await expect(createdArticle).not.toBeVisible()
+    const tagList = await page.locator('.sidebar',{hasText: 'Popular Tags'}).locator('a').count()
+    const randomTag = Math.floor(Math.random() * tagList)
+    const searchTag = page.locator('.sidebar',{hasText: 'Popular Tags'}).locator('a').nth(randomTag)
+    const input : any = await searchTag.textContent()
+    await searchTag.click()
+    await expect(page.locator('[class="feed-toggle"] [class="nav-link active"]')).toHaveText(input)
   })
 })

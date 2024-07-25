@@ -6,7 +6,6 @@ const api_server = process.env.API_URL as string
 
 export class Article {
   readonly page: Page
-  readonly locator: Location
   readonly deleteArticleButton: Locator
 
   constructor(page: Page) {
