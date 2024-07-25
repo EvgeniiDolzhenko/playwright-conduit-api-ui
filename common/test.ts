@@ -9,7 +9,6 @@ export type TestOptions = {
   loginPage: Login
   articlePage: Article
   navbar: Navbar
-  createArticleAPI : string
 }
 
 const test = base.extend<TestOptions>({

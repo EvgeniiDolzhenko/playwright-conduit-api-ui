@@ -50,9 +50,7 @@ test.describe('Mocking article and verify UI for different favoritesCount values
       await navbar.openBasePage(token)
       await expect(articlePage.articleLink).toHaveCount(1)
       await expect(articlePage.articleLink.locator('h1')).toHaveText('MOCK ARTICLE')
-      await expect(articlePage.likeButton).toHaveText(
-        ` ${value} `
-      )
+      await expect(articlePage.likeButton).toHaveText(` ${value} `)
       await expect(articlePage.likeButton).toHaveScreenshot({
         maxDiffPixels: 100,
       })
@@ -79,7 +77,11 @@ test.describe('Verify new article with tag / Search by tag', () => {
     await expect(page.locator('h1')).toContainText(articleName.split('-')[0])
   })
 
-  test('Verify article with tags, get article by tag and delete article', async ({navbar, page, articlePage}) => {
+  test('Verify article with tags, get article by tag and delete article', async ({
+    navbar,
+    page,
+    articlePage,
+  }) => {
     await navbar.openBasePage(token)
     await createdArticle.click()
     await expect(articlePage.tagInsideArticle).toBeVisible()
@@ -100,5 +102,3 @@ test.describe('Verify new article with tag / Search by tag', () => {
     await expect(articlePage.globalFeedButton).toHaveText(input)
   })
 })
-
-

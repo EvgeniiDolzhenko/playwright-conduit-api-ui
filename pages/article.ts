@@ -7,10 +7,10 @@ const api_server = process.env.API_URL as string
 export class Article {
   readonly page: Page
   readonly deleteArticleButton: Locator
-  readonly tagInsideArticle : Locator
-  readonly articleLink : Locator
-  readonly globalFeedButton : Locator
-  readonly likeButton : Locator
+  readonly tagInsideArticle: Locator
+  readonly articleLink: Locator
+  readonly globalFeedButton: Locator
+  readonly likeButton: Locator
 
   constructor(page: Page) {
     this.page = page

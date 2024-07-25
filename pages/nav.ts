@@ -1,7 +1,7 @@
 import {Locator, Page, request} from '@playwright/test'
 export class Navbar {
   readonly page: Page
-  readonly navbarHome : Locator
+  readonly navbarHome: Locator
 
   constructor(page: Page) {
     this.page = page
