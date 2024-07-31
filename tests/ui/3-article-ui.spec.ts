@@ -102,3 +102,16 @@ test.describe('Verify new article with tag / Search by tag', () => {
     await expect(articlePage.globalFeedButton).toHaveText(input)
   })
 })
+
+test.describe('Create new article UI / negative', async()=>{
+  test('New Article error : body can not be blank', async ({page, articlePage, navbar}) => {
+    await navbar.openBasePage(token)
+    await page.reload()
+    await page.locator('[href="/editor"]').click()
+    await page.waitForURL('**/editor')
+    await page.getByPlaceholder('Article Title').fill(title)
+    await page.locator('input[formcontrolname="description"]').fill(description)
+    await page.locator('button',{hasText:' Publish Article '}).click()
+    await expect(page.locator('[class="error-messages"]')).toBeVisible()
+  })
+})
