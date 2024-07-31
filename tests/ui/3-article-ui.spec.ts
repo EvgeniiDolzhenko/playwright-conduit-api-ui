@@ -104,14 +104,26 @@ test.describe('Verify new article with tag / Search by tag', () => {
 })
 
 test.describe('Create new article UI / negative', async()=>{
-  test('New Article error : body can not be blank', async ({page, articlePage, navbar}) => {
+
+  test.beforeEach('Open article editor',async({navbar, page})=>{
     await navbar.openBasePage(token)
     await page.reload()
     await page.locator('[href="/editor"]').click()
     await page.waitForURL('**/editor')
+  })
+
+  test('New Article error : body can not be blank', async ({page, articlePage, navbar}) => {
     await page.getByPlaceholder('Article Title').fill(title)
     await page.locator('input[formcontrolname="description"]').fill(description)
     await page.locator('button',{hasText:' Publish Article '}).click()
     await expect(page.locator('[class="error-messages"]')).toBeVisible()
+    await expect(page.locator('[class="error-messages"]')).toHaveText("body can't be blank")
   })
+
+  test('New Article error : title can not be blank', async ({page, articlePage, navbar}) => {
+    await page.locator('button',{hasText:' Publish Article '}).click()
+    await expect(page.locator('[class="error-messages"]')).toBeVisible()
+    await expect(page.locator('[class="error-messages"]')).toHaveText("title can't be blank")
+  })
+
 })
