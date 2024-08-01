@@ -103,9 +103,8 @@ test.describe('Verify new article with tag / Search by tag', () => {
   })
 })
 
-test.describe('Create new article UI / negative', async()=>{
-
-  test.beforeEach('Open article editor',async({navbar, page})=>{
+test.describe('Create new article UI / negative', async () => {
+  test.beforeEach('Open article editor', async ({navbar, page}) => {
     await navbar.openBasePage(token)
     await navbar.openArticleEditor()
   })
@@ -113,13 +112,13 @@ test.describe('Create new article UI / negative', async()=>{
   test('New Article error : body can not be blank', async ({page, articlePage}) => {
     await page.getByPlaceholder('Article Title').fill(title)
     await page.locator('input[formcontrolname="description"]').fill(description)
-    await page.locator('button',{hasText:' Publish Article '}).click()
+    await page.locator('button', {hasText: ' Publish Article '}).click()
     await expect(articlePage.articleErrorMessage).toBeVisible()
     await expect(articlePage.articleErrorMessage).toHaveText("body can't be blank")
   })
 
   test('New Article error : title can not be blank', async ({page, articlePage}) => {
-    await page.locator('button',{hasText:' Publish Article '}).click()
+    await page.locator('button', {hasText: ' Publish Article '}).click()
     await expect(articlePage.articleErrorMessage).toBeVisible()
     await expect(articlePage.articleErrorMessage).toHaveText("title can't be blank")
   })
@@ -127,9 +126,8 @@ test.describe('Create new article UI / negative', async()=>{
   test('New Article error : description  can not be blank', async ({page, articlePage}) => {
     await page.getByPlaceholder('Article Title').fill(title)
     await page.locator('[placeholder="Write your article (in markdown)"]').fill(articleInfo)
-    await page.locator('button',{hasText:' Publish Article '}).click()
+    await page.locator('button', {hasText: ' Publish Article '}).click()
     await expect(articlePage.articleErrorMessage).toBeVisible()
     await expect(articlePage.articleErrorMessage).toHaveText("description can't be blank")
   })
-
 })

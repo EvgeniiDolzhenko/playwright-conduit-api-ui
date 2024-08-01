@@ -11,7 +11,7 @@ export class Article {
   readonly articleLink: Locator
   readonly globalFeedButton: Locator
   readonly likeButton: Locator
-  readonly articleErrorMessage : Locator
+  readonly articleErrorMessage: Locator
 
   constructor(page: Page) {
     this.page = page
