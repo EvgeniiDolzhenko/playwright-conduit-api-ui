@@ -11,6 +11,7 @@ export class Article {
   readonly articleLink: Locator
   readonly globalFeedButton: Locator
   readonly likeButton: Locator
+  readonly articleErrorMessage : Locator
 
   constructor(page: Page) {
     this.page = page
@@ -21,6 +22,7 @@ export class Article {
     this.articleLink = page.locator('.preview-link')
     this.globalFeedButton = page.locator('.feed-toggle [class="nav-link active"]')
     this.likeButton = page.locator('[class="btn btn-sm btn-outline-primary"]')
+    this.articleErrorMessage = page.locator('.error-messages')
   }
 
   async createNewArticleApi(title: string, description: string, articleInfo: string, tags: any) {

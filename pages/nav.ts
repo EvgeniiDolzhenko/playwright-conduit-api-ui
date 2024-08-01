@@ -15,4 +15,12 @@ export class Navbar {
     }, token)
     await this.page.waitForResponse('**/tags')
   }
+
+  async openArticleEditor(){
+    await this.page.reload()
+    await this.page.locator('[href="/editor"]').click()
+    await this.page.waitForURL('**/editor')
+  }
+
+  
 }
