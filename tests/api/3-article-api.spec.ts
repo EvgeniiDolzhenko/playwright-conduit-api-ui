@@ -1,5 +1,4 @@
 import {test, expect} from '../../common/test'
-import {faker} from '@faker-js/faker'
 require('dotenv').config()
 import {tags, title, description, articleInfo} from '../../common/helper'
 const email = process.env.EMAIL as string
@@ -15,14 +14,19 @@ test.describe('Create new article, verify , delete E2E API', async () => {
   })
 
   test('Verify new article status and slug', async ({articlePage}) => {
-    const response = await articlePage.getArticleByTitle(title, 'loggedIn')
-    const data = await response.json()
-    expect(response.status()).toEqual(200)
-    expect(data.article.slug).toContain(title + '-5549')
-    const deleteArticle = await articlePage.deleteArticle(title)
-    expect(deleteArticle.status()).toEqual(204)
-    const getArticleByTitle = await articlePage.getArticleByTitle(title, 'loggedIn')
-    const bodyGetArticle = await getArticleByTitle.json()
-    expect(bodyGetArticle.errors.article).toEqual(['not found'])
+    await test.step('Get Article by Title and Verify slug', async()=>{
+      const response = await articlePage.getArticleByTitle(title, 'loggedIn')
+      const data = await response.json()
+      expect(response.status()).toEqual(200)
+      expect(data.article.slug).toContain(title + '-5549')
+    })
+    await test.step('DeLete Article and Verify article is deleted', async()=>{
+      const deleteArticle = await articlePage.deleteArticle(title)
+      expect(deleteArticle.status()).toEqual(204)
+      const getArticleByTitle = await articlePage.getArticleByTitle(title, 'loggedIn')
+      const bodyGetArticle = await getArticleByTitle.json()
+      expect(bodyGetArticle.errors.article).toEqual(['not found'])
+    })
   })
 })
+
