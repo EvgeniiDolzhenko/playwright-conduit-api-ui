@@ -7,5 +7,6 @@ const randomUsername = faker.person.fullName()
 const description = faker.lorem.sentences(1)
 const articleInfo = faker.lorem.sentences(3)
 const title = faker.lorem.words(1) + Math.floor(Math.random() * 100000)
+const randomId = faker.number.int()
 
-export {tags, tag, randomEmail, randomUsername, description, articleInfo, title}
+export {tags, tag, randomEmail, randomUsername, description, articleInfo, title, randomId}

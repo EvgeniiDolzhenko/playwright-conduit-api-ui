@@ -1,6 +1,6 @@
 import {test, expect} from '../../common/test'
 require('dotenv').config()
-
+import {randomId} from '../../common/helper'
 const email = process.env.EMAIL as string
 const userName = process.env.USER as string
 const pass = process.env.PASS as string
@@ -32,7 +32,11 @@ test.describe('Negative scenarios', async () => {
   })
 
   test('Create user with existing email', async ({regPage, page}) => {
-    await regPage.userNameInput.fill('user')
+    await Promise.all([
+      expect(regPage.userNameInput).toBeVisible(),
+      expect(regPage.userEmail).toBeVisible()
+  ]);
+    await regPage.userNameInput.fill('use1r'+randomId)
     await regPage.userEmail.fill(email)
     await regPage.userPassword.fill('pass')
     await regPage.signUp.click()
@@ -44,9 +48,8 @@ test.describe('Negative scenarios', async () => {
   })
 
   test('Create user with existing username', async ({regPage, page}) => {
-    const randomDigit = Math.floor(Math.random() * 100000)
     await regPage.userNameInput.fill(userName)
-    await regPage.userEmail.fill(`testing${randomDigit}@.gmail.com`)
+    await regPage.userEmail.fill(`testing${randomId}@.gmail.com`)
     await regPage.userPassword.fill('pass')
     await regPage.signUp.click()
     const response = await page.waitForResponse('**/users')
