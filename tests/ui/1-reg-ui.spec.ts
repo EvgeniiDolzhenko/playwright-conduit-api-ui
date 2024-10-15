@@ -72,3 +72,9 @@ test.describe('Negative scenarios', async () => {
     await expect(regPage.regErrorMessage).toHaveScreenshot({maxDiffPixels: 100})
   })
 })
+
+test('Verify importing pages',async({regPage})=>{
+  const hello = "Hello Playwright"
+  const result = await regPage.helloPageFunction(hello)
+  console.log(result)
+})

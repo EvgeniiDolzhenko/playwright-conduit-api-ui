@@ -1,5 +1,7 @@
 import {Locator, Page, request} from '@playwright/test'
 import {expect} from '../common/test'
+import { HelloPage } from './hello.page'
+
 export class Reg {
   readonly page: Page
   readonly locator: Location
@@ -8,6 +10,7 @@ export class Reg {
   readonly userPassword: Locator
   readonly signUp: Locator
   readonly regErrorMessage: Locator
+  readonly helloPage: HelloPage
 
   constructor(page: Page) {
     this.page = page
@@ -16,6 +19,7 @@ export class Reg {
     this.userPassword = this.page.locator('input[placeholder="Password"]')
     this.signUp = this.page.locator('button[type="submit"]')
     this.regErrorMessage = this.page.locator('[class="error-messages"]')
+    this.helloPage = new HelloPage(page)
   }
 
   async openRegPage() {
@@ -37,4 +41,9 @@ export class Reg {
     })
     return response
   }
+
+  async helloPageFunction(str: string){
+    return await this.helloPage.helloWord(str)
+  }
+
 }
